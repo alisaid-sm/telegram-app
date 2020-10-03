@@ -1,32 +1,54 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <style>
+@font-face{
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/font/Rubik-Regular.ttf')
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  font-family: Rubik;
+  height: 100vh;
+  width: 100vw;
 }
-
-#nav {
-  padding: 30px;
+.cont-tele {
+  height: 100vh;
+  width: 100vw;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.color-default {
+  color: #7E98DF;;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.bgn-default {
+  background-color: #F6F6F6;
+}
+.input-default input{
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  /* color: #fff; */
+  /* margin-bottom: 30px; */
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  background: transparent;
+}
+.button-default {
+  height: 60px;
+  background: #7E98DF !important;
+  border-radius: 70px !important;
+  border: none !important;
+}
+.button-reverse {
+  height: 60px;
+  background: #FFFFFF !important;
+  border: 1px solid #7E98DF !important;
+  box-sizing: border-box !important;
+  border-radius: 70px !important;
+  color: black !important;
 }
 </style>
