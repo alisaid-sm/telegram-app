@@ -13,8 +13,6 @@
 }
 #app {
   font-family: Rubik;
-  height: 100vh;
-  width: 100vw;
 }
 .cont-tele {
   height: 100vh;
@@ -49,6 +47,8 @@
   border: 1px solid #7E98DF !important;
   box-sizing: border-box !important;
   border-radius: 70px !important;
-  color: black !important;
+}
+router-link {
+  text-decoration: none !important;
 }
 </style>

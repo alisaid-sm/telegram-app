@@ -1,6 +1,8 @@
 <template>
-  <div class="cont-tele bgn-default d-flex justify-content-center align-items-center">
-    <div class="card border-0 p-5" style="width: 40vw;">
+<div>
+<!-- Desktop -->
+  <div class="d-sm-flex d-none cont-tele bgn-default justify-content-center align-items-center">
+    <div class="card border-0 pr-3 pl-3" style="width: 40vw;">
         <div class="card-body">
             <h4 class="card-title color-default text-center font-weight-bold">Login</h4>
             <p class="card-text">Hi, Welcome back!</p>
@@ -22,10 +24,38 @@
                 <div class="col-4"><hr></div>
             </div>
             <b-button class="mt-3 button-reverse mb-3" type="submit" block><img class="mr-3" src="../assets/img/icon-G.png"> Google</b-button>
-            <p class="text-center">Don’t have an account? <span class="color-default font-weight-bold">Sign Up</span></p>
+            <p class="text-center">Don’t have an account? <router-link to="/signup" class="color-default font-weight-bold">Sign Up</router-link></p>
         </div>
     </div>
+<!-- HP -->
   </div>
+    <div class="d-sm-none d-block">
+    <div class="card-body">
+            <h4 class="card-title color-default text-center font-weight-bold">Login</h4>
+            <p class="card-text">Hi, Welcome back!</p>
+            <form class="form-auth" >
+                <div class="input-default">
+                    <label>Username</label>
+                    <input type="text" placeholder="telegram@mail.com" required>
+                </div>
+                <div class="input-default">
+                    <label>Password</label>
+                    <input type="password" placeholder="password" required>
+                </div>
+                <p class="mt-3 text-right">Forgot password?</p>
+                <b-button class="mt-3 button-default" type="submit" block>Login</b-button>
+            </form>
+            <div class="row text-center mt-5">
+                <div class="col-4"><hr></div>
+                <div class="col-4"><p>Login with</p></div>
+                <div class="col-4"><hr></div>
+            </div>
+            <b-button class="mt-3 button-reverse mb-3" type="submit" block><img class="mr-3" src="../assets/img/icon-G.png"> Google</b-button>
+            <p class="text-center">Don’t have an account? <router-link to="/signup" class="color-default font-weight-bold">Sign Up</router-link></p>
+        </div>
+    </div>
+</div>
+
 </template>
 
 <script>
