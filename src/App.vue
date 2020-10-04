@@ -48,7 +48,4 @@
   box-sizing: border-box !important;
   border-radius: 70px !important;
 }
-router-link {
-  text-decoration: none !important;
-}
 </style>

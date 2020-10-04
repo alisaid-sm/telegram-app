@@ -7,18 +7,18 @@
             <router-link to="/login"><img src="../assets/img/backtologin.png"></router-link>
             <h4 class="card-title color-default text-center font-weight-bold">Register</h4>
             <p class="card-text">Let’s create your account!</p>
-            <form class="form-auth" >
+            <form class="form-auth" @submit.prevent='register'>
                 <div class="input-default">
                     <label>Name</label>
-                    <input type="text" placeholder="tele" required>
+                    <input v-model="form.name" type="text" placeholder="tele" required>
                 </div>
                 <div class="input-default">
                     <label>Email</label>
-                    <input type="text" placeholder="telegram@mail.com" required>
+                    <input v-model="form.email" type="email" placeholder="telegram@mail.com" required>
                 </div>
                 <div class="input-default">
                     <label>Password</label>
-                    <input type="password" placeholder="password" required>
+                    <input v-model="form.password" type="password" placeholder="password" required>
                 </div>
                 <b-button class="mt-3 button-default" type="submit" block>Register</b-button>
             </form>
@@ -40,15 +40,15 @@
             <form class="form-auth" >
                 <div class="input-default">
                     <label>Name</label>
-                    <input type="text" placeholder="tele" required>
+                    <input v-model="form.name" type="text" placeholder="tele" required>
                 </div>
                 <div class="input-default">
                     <label>Email</label>
-                    <input type="text" placeholder="telegram@mail.com" required>
+                    <input v-model="form.email" type="email" placeholder="telegram@mail.com" required>
                 </div>
                 <div class="input-default">
                     <label>Password</label>
-                    <input type="password" placeholder="password" required>
+                    <input v-model="form.password" type="password" placeholder="password" required>
                 </div>
                 <b-button class="mt-3 button-default" type="submit" block>Register</b-button>
             </form>
@@ -65,8 +65,32 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-
+  name: 'Register',
+  data () {
+    return {
+      form: {
+        name: '',
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      actionRegister: 'auth/register'
+    }),
+    register () {
+      this.actionRegister(this.form)
+        .then((response) => {
+          alert(response)
+          window.location = '/signup'
+        }).catch((err) => {
+          alert(err)
+        })
+    }
+  }
 }
 </script>
 

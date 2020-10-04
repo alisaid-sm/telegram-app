@@ -6,14 +6,14 @@
         <div class="card-body">
             <h4 class="card-title color-default text-center font-weight-bold">Login</h4>
             <p class="card-text">Hi, Welcome back!</p>
-            <form class="form-auth" >
+            <form class="form-auth" @submit.prevent='login'>
                 <div class="input-default">
                     <label>Username</label>
-                    <input type="text" placeholder="telegram@mail.com" required>
+                    <input v-model="form.name" type="text" placeholder="telegr" required>
                 </div>
                 <div class="input-default">
                     <label>Password</label>
-                    <input type="password" placeholder="password" required>
+                    <input v-model="form.password" type="password" placeholder="password" required>
                 </div>
                 <p class="mt-3 text-right">Forgot password?</p>
                 <b-button class="mt-3 button-default" type="submit" block>Login</b-button>
@@ -33,14 +33,14 @@
     <div class="card-body">
             <h4 class="card-title color-default text-center font-weight-bold">Login</h4>
             <p class="card-text">Hi, Welcome back!</p>
-            <form class="form-auth" >
+            <form class="form-auth" @submit.prevent='login'>
                 <div class="input-default">
                     <label>Username</label>
-                    <input type="text" placeholder="telegram@mail.com" required>
+                    <input v-model="form.name" type="text" placeholder="telegr" required>
                 </div>
                 <div class="input-default">
                     <label>Password</label>
-                    <input type="password" placeholder="password" required>
+                    <input v-model="form.password" type="password" placeholder="password" required>
                 </div>
                 <p class="mt-3 text-right">Forgot password?</p>
                 <b-button class="mt-3 button-default" type="submit" block>Login</b-button>
@@ -59,8 +59,31 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-
+  name: 'Login',
+  data () {
+    return {
+      form: {
+        name: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      actionLogin: 'auth/login'
+    }),
+    login () {
+      this.actionLogin(this.form)
+        .then((response) => {
+          alert(response)
+          window.location = '/'
+        }).catch((err) => {
+          alert(err)
+        })
+    }
+  }
 }
 </script>
 
