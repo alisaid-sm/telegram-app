@@ -19,7 +19,6 @@ axios.interceptors.response.use((response) => {
   const status = err.response.status
   console.log(status)
   if (status === 500) {
-    alert('refreshtoken')
     const refreshtoken = localStorage.getItem('refreshtoken')
     const fd = {
       refreshToken: refreshtoken

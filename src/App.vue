@@ -19,7 +19,7 @@
   width: 100vw;
 }
 .color-default {
-  color: #7E98DF;;
+  color: #7E98DF !important;
 }
 .bgn-default {
   background-color: #F6F6F6;

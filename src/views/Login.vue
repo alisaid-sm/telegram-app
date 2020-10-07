@@ -77,7 +77,7 @@ export default {
     login () {
       this.actionLogin(this.form)
         .then((response) => {
-          alert(response)
+          localStorage.setItem('name', this.form.name)
           window.location = '/'
         }).catch((err) => {
           alert(err)
