@@ -75,6 +75,7 @@
                                     <div class="col-10"><p>Devices</p></div>
                                 </div>
                             </div>
+                            <b-button variant="danger" @click="logOut()">Log Out</b-button>
                             </div>
                         </template>
                         </b-sidebar>
@@ -102,7 +103,7 @@
                           <div class="user">
                         <div class="row">
                           <div class="col-3">
-                              <img class="img-fluid" alt="Responsive image" :src="`http://localhost:3000/${item.image}`">
+                              <img class="img-fluid" alt="Responsive image"  :src="`http://localhost:3000/${item.image}`">
                           </div>
                           <div class="col-9">
                               <div class="float-right clock">15:20</div>
@@ -120,7 +121,7 @@
               <div v-if="userReceiver !== ''">
                   <div class="head p-4 bg-white">
                   <div class="row no-gutters">
-                      <div class="col-1"><img style="border-radius: 20px;" :src="`http://localhost:3000/${userReceiver.image}`"></div>
+                      <div class="col-1"><img v-b-toggle.sidebar-right style="border-radius: 20px;" width="64px" height="64px" :src="`http://localhost:3000/${userReceiver.image}`"></div>
                       <div class="col-9">
                           <h4>{{userReceiver.name}}</h4>
                           <h5 style="color: #7E98DF;">Online</h5>
@@ -128,14 +129,47 @@
                       <div class="col-2"><img class="float-right mt-4" src="../assets/img/Profile menu.png"></div>
                   </div>
               </div>
+              <div>
+                <b-sidebar id="sidebar-right" title="Sidebar" right no-header shadow>
+                    <div class="row no-gutters pl-3 pr-3">
+                        <div class="col-12 text-center p-4"><p class="color-default"><img class="mr-3" src="../assets/img/backreceiver.png">@alisaid</p></div>
+                        <div class="col-12 text-center pt-3 pb-3"><img style="border-radius: 20px;" width="64px" height="64px" :src="`http://localhost:3000/${userReceiver.image}`"></div>
+                        <div class="col-10">
+                            <h5>{{userReceiver.name}}</h5>
+                            <p>Online</p>
+                        </div>
+                        <div class="col-2">
+                            <img class="mt-4" src="../assets/img/Chatside.png">
+                        </div>
+                        <div class="col-12">
+                            <h5>Phone number</h5>
+                            <p>{{userReceiver.phonenumber}}</p>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-4">Location</div>
+                            <div class="col-4 filter-menu-active">Image</div>
+                            <div class="col-4">Documents</div>
+                        </div>
+                    </div>
+                </b-sidebar>
+            </div>
               <vueCustomScrollbar class="chatbox p-5">
-                  <div v-for="(item, index) in privateMessages" :key="index">
+                  <div v-for="(item, index) in historyMessages" :key="index">
                       <div v-if="dataUser.data.name !== item.sender" >
-                             <img class="mb-2" style="border-radius: 20px;" :src="`http://localhost:3000/${item.image}`">
-                             <div class="mb-3 w-25" style="background: #7E98DF;border-radius: 35px 35px 35px 10px; padding:10px;" ><p class="text-white">{{item.message}}</p></div>
+                             <div class="mb-3 w-25" style="margin-left:70px; background: #7E98DF;border-radius: 35px 35px 35px 10px; padding:10px;" ><p class="text-white">{{item.message}}</p></div>
+                             <img class="mb-2" style="border-radius: 20px; margin-top:-70px;" width="54px" height="54px" :src="`http://localhost:3000/${item.image}`">
                         </div>
                       <div class="w-100 text-right m-0" v-else>
-                          <div ><p>{{item.message}}<img class="ml-2" style="border-radius: 20px;" :src="`http://localhost:3000/${item.image}`"></p></div>
+                          <div ><p>{{item.message}}<img class="ml-2" width="54px" height="54px" style="border-radius: 20px;" :src="`http://localhost:3000/${item.image}`"></p></div>
+                      </div>
+                  </div>
+                  <div v-for="(item, index) in privateMessages" :key="index">
+                      <div v-if="dataUser.data.name !== item.sender" >
+                             <div class="mb-3 w-25" style="margin-left:70px; background: #7E98DF;border-radius: 35px 35px 35px 10px; padding:10px;" ><p class="text-white">{{item.message}}</p></div>
+                             <img class="mb-2" style="border-radius: 20px; margin-top:-70px;" width="54px" height="54px" :src="`http://localhost:3000/${item.image}`">
+                        </div>
+                      <div class="w-100 text-right m-0" v-else>
+                          <div ><p>{{item.message}}<img class="ml-2" width="54px" height="54px" style="border-radius: 20px;" :src="`http://localhost:3000/${item.image}`"></p></div>
                       </div>
                   </div>
               </vueCustomScrollbar>
@@ -331,6 +365,7 @@ export default {
       profImage: null,
       listMessages: [],
       privateMessages: [],
+      historyMessages: [],
       listUsers: [],
       userReceiver: '',
       settings: {
@@ -373,9 +408,17 @@ export default {
       })
       this.message = ''
     },
-    selectUser (user) {
+    async selectUser (user) {
+      this.listMessages = []
+      this.privateMessages = []
       this.userReceiver = user
       this.getPrivateMessages()
+
+      await this.socket.emit('get-history-message', {
+        sender: this.dataUser.data.name,
+        receiver: user
+      })
+      this.getHistoryMessages()
     },
     async getPrivateMessages () {
       const name = localStorage.getItem('name')
@@ -383,6 +426,11 @@ export default {
         return (item.receiver === this.userReceiver.name || item.receiver === name) && (item.sender === this.userReceiver.name || item.sender === name)
       })
       this.privateMessages = privateMessage
+    },
+    getHistoryMessages () {
+      this.socket.on('history-list-message', (data) => {
+        this.historyMessages = data
+      })
     },
     updateProfile (key) {
       console.log(key)
@@ -422,7 +470,7 @@ export default {
           } else if (response === `Error: Duplicate entry '${this.profName}' for key 'name'`) {
             alert('name sudah ada, coba yang lain')
           } else {
-            alert(response)
+            console.log(response)
             this.upProf = 0
             localStorage.setItem('name', nama)
             window.location = '/'
@@ -430,6 +478,10 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    logOut () {
+      localStorage.removeItem('token')
+      window.location = '/'
     }
   },
   mounted () {
@@ -526,7 +578,7 @@ export default {
   display:inline-block;
   margin-right:10px;
 }
-.row .filter .scroll-container .filter-menu-active{
+.filter-menu-active{
   background: #7E98DF;
   border-radius: 20px;
   color: white;
