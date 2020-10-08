@@ -1,5 +1,29 @@
 # telegram-frontend
+aplikasi ini adalah aplikasi chat yang dibuat menggunakan socket.io, vue.js, dan express.js
+## Preview
+HALAMAN LOGIN
 
+HALAMAN REGISTER
+
+HALAMAN UTAMA(CHAT LIST)
+
+HALAMAN PROFILE
+## Feature
+.Login, register(verifikasi email)
+
+.Private Chat
+
+.History Chat
+
+.Delete history Chat
+
+.Profile Users
+
+.Update Profile Users
+
+.Profile Receiver
+
+.Logout
 ## Project setup
 ```
 npm install
